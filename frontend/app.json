@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "AI Crop Doctor",
+    "slug": "ai-crop-doctor",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -9,14 +9,27 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app needs access to your camera to take photos of plant leaves for disease detection.",
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photo library to upload plant leaf images for disease detection.",
+        "NSMicrophoneUsageDescription": "This app needs microphone access for voice guidance features."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_MEDIA_IMAGES",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -32,6 +45,27 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#000"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "This app needs access to your photo library to upload plant leaf images for disease detection.",
+          "cameraPermission": "This app needs access to your camera to take photos of plant leaves for disease detection."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "This app needs access to your camera to take photos of plant leaves for disease detection."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "This app needs access to your photo library to save and upload plant leaf images.",
+          "savePhotosPermission": "Allow AI Crop Doctor to save photos to your device.",
+          "isAccessMediaLocationEnabled": true
         }
       ]
     ],
