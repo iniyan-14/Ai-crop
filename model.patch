@@ -1,17 +1,35 @@
-diff --git a/frontend/app/analysis.tsx b/frontend/app/analysis.tsx
-index 920b422..7b06b4b 100644
---- a/frontend/app/analysis.tsx
-+++ b/frontend/app/analysis.tsx
-@@ -15,7 +15,11 @@ import { router, useLocalSearchParams } from 'expo-router';
- import * as Speech from 'expo-speech';
- import axios from 'axios';
+diff --git a/backend/server.py b/backend/server.py
+index 707ec52..c2fca26 100644
+--- a/backend/server.py
++++ b/backend/server.py
+@@ -22,7 +22,7 @@ load_dotenv(ROOT_DIR / '.env')
+ # MongoDB connection
+ mongo_url = os.environ['MONGO_URL']
+ client = AsyncIOMotorClient(mongo_url)
+-db = client[os.environ.get('DB_NAME', 'crop_doctor_db')]
++db = client[os.environ['DB_NAME']]
  
--const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
-+const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
-+
-+if (!BACKEND_URL) {
-+  throw new Error('EXPO_PUBLIC_BACKEND_URL is not configured');
-+}
- 
- interface AnalysisResult {
-   id: string;
+ # Create the main app without a prefix
+ app = FastAPI()
+diff --git a/model.patch b/model.patch
+index 1e01f47..e69de29 100644
+--- a/model.patch
++++ b/model.patch
+@@ -1,17 +0,0 @@
+-diff --git a/frontend/app/analysis.tsx b/frontend/app/analysis.tsx
+-index 920b422..7b06b4b 100644
+---- a/frontend/app/analysis.tsx
+-+++ b/frontend/app/analysis.tsx
+-@@ -15,7 +15,11 @@ import { router, useLocalSearchParams } from 'expo-router';
+- import * as Speech from 'expo-speech';
+- import axios from 'axios';
+- 
+--const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+-+const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+-+
+-+if (!BACKEND_URL) {
+-+  throw new Error('EXPO_PUBLIC_BACKEND_URL is not configured');
+-+}
+- 
+- interface AnalysisResult {
+-   id: string;
