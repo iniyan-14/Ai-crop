@@ -131,7 +131,26 @@ async def analyze_crop_disease(base64_image: str, crop_type: str, language: str)
         image_content = ImageContent(image_base64=base64_image)
         
         # Create analysis prompt
-        prompt = f"""Analyze this {crop_type} plant leaf image for diseases.
+        prompt = f"""Analyze this {crop_type} plant/fruit leaf or fruit image for diseases.
+
+You are an expert agricultural pathologist. Analyze the image carefully and identify any diseases, pests, or health issues.
+
+Common diseases by crop type:
+- Apple: Apple Scab, Fire Blight, Powdery Mildew, Cedar Apple Rust, Black Rot
+- Banana: Panama Disease, Black Sigatoka, Banana Bunchy Top Virus, Banana Streak Virus
+- Mango: Anthracnose, Powdery Mildew, Bacterial Canker, Mango Malformation
+- Orange/Citrus: Citrus Canker, Citrus Greening (HLB), Citrus Black Spot, Melanose
+- Grapes: Downy Mildew, Powdery Mildew, Black Rot, Anthracnose, Pierce's Disease
+- Strawberry: Gray Mold, Powdery Mildew, Leaf Spot, Anthracnose
+- Papaya: Papaya Ringspot Virus, Anthracnose, Black Spot, Powdery Mildew
+- Guava: Anthracnose, Wilt Disease, Canker, Fruit Fly damage
+- Pomegranate: Bacterial Blight, Fruit Rot, Cercospora Leaf Spot
+- Tomato: Early Blight, Late Blight, Septoria Leaf Spot, Bacterial Spot, Fusarium Wilt
+- Rice: Blast, Bacterial Blight, Sheath Blight, Brown Spot
+- Maize: Northern Corn Leaf Blight, Gray Leaf Spot, Common Rust, Ear Rot
+- Cotton: Bacterial Blight, Verticillium Wilt, Fusarium Wilt, Boll Rot
+- Wheat: Rust diseases, Powdery Mildew, Septoria, Fusarium Head Blight
+- Potato: Late Blight, Early Blight, Black Leg, Potato Virus Y
 
 Provide your response in the following JSON format:
 {{
@@ -142,7 +161,8 @@ Provide your response in the following JSON format:
     "prevention_tips": ["Tip 1", "Tip 2", "Tip 3"]
 }}
 
-Be specific and practical. If the image shows a healthy plant, indicate that.
+Be specific and practical. If the image shows a healthy plant/fruit, indicate that.
+For fruits, also check for signs of rot, fungal infections, pest damage, or ripening issues.
 Provide treatment in {language} language context but keep JSON keys in English."""
         
         # Send message with image
