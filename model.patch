@@ -1,87 +1,92 @@
-diff --git a/backend/server.py b/backend/server.py
-index c2fca26..3958c30 100644
---- a/backend/server.py
-+++ b/backend/server.py
-@@ -131,7 +131,26 @@ async def analyze_crop_disease(base64_image: str, crop_type: str, language: str)
-         image_content = ImageContent(image_base64=base64_image)
-         
-         # Create analysis prompt
--        prompt = f"""Analyze this {crop_type} plant leaf image for diseases.
-+        prompt = f"""Analyze this {crop_type} plant/fruit leaf or fruit image for diseases.
-+
-+You are an expert agricultural pathologist. Analyze the image carefully and identify any diseases, pests, or health issues.
-+
-+Common diseases by crop type:
-+- Apple: Apple Scab, Fire Blight, Powdery Mildew, Cedar Apple Rust, Black Rot
-+- Banana: Panama Disease, Black Sigatoka, Banana Bunchy Top Virus, Banana Streak Virus
-+- Mango: Anthracnose, Powdery Mildew, Bacterial Canker, Mango Malformation
-+- Orange/Citrus: Citrus Canker, Citrus Greening (HLB), Citrus Black Spot, Melanose
-+- Grapes: Downy Mildew, Powdery Mildew, Black Rot, Anthracnose, Pierce's Disease
-+- Strawberry: Gray Mold, Powdery Mildew, Leaf Spot, Anthracnose
-+- Papaya: Papaya Ringspot Virus, Anthracnose, Black Spot, Powdery Mildew
-+- Guava: Anthracnose, Wilt Disease, Canker, Fruit Fly damage
-+- Pomegranate: Bacterial Blight, Fruit Rot, Cercospora Leaf Spot
-+- Tomato: Early Blight, Late Blight, Septoria Leaf Spot, Bacterial Spot, Fusarium Wilt
-+- Rice: Blast, Bacterial Blight, Sheath Blight, Brown Spot
-+- Maize: Northern Corn Leaf Blight, Gray Leaf Spot, Common Rust, Ear Rot
-+- Cotton: Bacterial Blight, Verticillium Wilt, Fusarium Wilt, Boll Rot
-+- Wheat: Rust diseases, Powdery Mildew, Septoria, Fusarium Head Blight
-+- Potato: Late Blight, Early Blight, Black Leg, Potato Virus Y
- 
- Provide your response in the following JSON format:
- {{
-@@ -142,7 +161,8 @@ Provide your response in the following JSON format:
-     "prevention_tips": ["Tip 1", "Tip 2", "Tip 3"]
- }}
- 
--Be specific and practical. If the image shows a healthy plant, indicate that.
-+Be specific and practical. If the image shows a healthy plant/fruit, indicate that.
-+For fruits, also check for signs of rot, fungal infections, pest damage, or ripening issues.
- Provide treatment in {language} language context but keep JSON keys in English."""
-         
-         # Send message with image
 diff --git a/model.patch b/model.patch
-index 97f0c3e..e69de29 100644
+index 440e274..e69de29 100644
 --- a/model.patch
 +++ b/model.patch
-@@ -1,40 +0,0 @@
+@@ -1,87 +0,0 @@
+-diff --git a/backend/server.py b/backend/server.py
+-index c2fca26..3958c30 100644
+---- a/backend/server.py
+-+++ b/backend/server.py
+-@@ -131,7 +131,26 @@ async def analyze_crop_disease(base64_image: str, crop_type: str, language: str)
+-         image_content = ImageContent(image_base64=base64_image)
+-         
+-         # Create analysis prompt
+--        prompt = f"""Analyze this {crop_type} plant leaf image for diseases.
+-+        prompt = f"""Analyze this {crop_type} plant/fruit leaf or fruit image for diseases.
+-+
+-+You are an expert agricultural pathologist. Analyze the image carefully and identify any diseases, pests, or health issues.
+-+
+-+Common diseases by crop type:
+-+- Apple: Apple Scab, Fire Blight, Powdery Mildew, Cedar Apple Rust, Black Rot
+-+- Banana: Panama Disease, Black Sigatoka, Banana Bunchy Top Virus, Banana Streak Virus
+-+- Mango: Anthracnose, Powdery Mildew, Bacterial Canker, Mango Malformation
+-+- Orange/Citrus: Citrus Canker, Citrus Greening (HLB), Citrus Black Spot, Melanose
+-+- Grapes: Downy Mildew, Powdery Mildew, Black Rot, Anthracnose, Pierce's Disease
+-+- Strawberry: Gray Mold, Powdery Mildew, Leaf Spot, Anthracnose
+-+- Papaya: Papaya Ringspot Virus, Anthracnose, Black Spot, Powdery Mildew
+-+- Guava: Anthracnose, Wilt Disease, Canker, Fruit Fly damage
+-+- Pomegranate: Bacterial Blight, Fruit Rot, Cercospora Leaf Spot
+-+- Tomato: Early Blight, Late Blight, Septoria Leaf Spot, Bacterial Spot, Fusarium Wilt
+-+- Rice: Blast, Bacterial Blight, Sheath Blight, Brown Spot
+-+- Maize: Northern Corn Leaf Blight, Gray Leaf Spot, Common Rust, Ear Rot
+-+- Cotton: Bacterial Blight, Verticillium Wilt, Fusarium Wilt, Boll Rot
+-+- Wheat: Rust diseases, Powdery Mildew, Septoria, Fusarium Head Blight
+-+- Potato: Late Blight, Early Blight, Black Leg, Potato Virus Y
+- 
+- Provide your response in the following JSON format:
+- {{
+-@@ -142,7 +161,8 @@ Provide your response in the following JSON format:
+-     "prevention_tips": ["Tip 1", "Tip 2", "Tip 3"]
+- }}
+- 
+--Be specific and practical. If the image shows a healthy plant, indicate that.
+-+Be specific and practical. If the image shows a healthy plant/fruit, indicate that.
+-+For fruits, also check for signs of rot, fungal infections, pest damage, or ripening issues.
+- Provide treatment in {language} language context but keep JSON keys in English."""
+-         
+-         # Send message with image
 -diff --git a/model.patch b/model.patch
--index f33ac53..e69de29 100644
+-index 97f0c3e..e69de29 100644
 ---- a/model.patch
 -+++ b/model.patch
--@@ -1,35 +0,0 @@
---diff --git a/backend/server.py b/backend/server.py
---index 707ec52..c2fca26 100644
------ a/backend/server.py
---+++ b/backend/server.py
---@@ -22,7 +22,7 @@ load_dotenv(ROOT_DIR / '.env')
--- # MongoDB connection
--- mongo_url = os.environ['MONGO_URL']
--- client = AsyncIOMotorClient(mongo_url)
----db = client[os.environ.get('DB_NAME', 'crop_doctor_db')]
---+db = client[os.environ['DB_NAME']]
--- 
--- # Create the main app without a prefix
--- app = FastAPI()
+-@@ -1,40 +0,0 @@
 --diff --git a/model.patch b/model.patch
---index 1e01f47..e69de29 100644
+--index f33ac53..e69de29 100644
 ----- a/model.patch
 --+++ b/model.patch
---@@ -1,17 +0,0 @@
----diff --git a/frontend/app/analysis.tsx b/frontend/app/analysis.tsx
----index 920b422..7b06b4b 100644
------- a/frontend/app/analysis.tsx
----+++ b/frontend/app/analysis.tsx
----@@ -15,7 +15,11 @@ import { router, useLocalSearchParams } from 'expo-router';
---- import * as Speech from 'expo-speech';
---- import axios from 'axios';
+--@@ -1,35 +0,0 @@
+---diff --git a/backend/server.py b/backend/server.py
+---index 707ec52..c2fca26 100644
+------ a/backend/server.py
+---+++ b/backend/server.py
+---@@ -22,7 +22,7 @@ load_dotenv(ROOT_DIR / '.env')
+--- # MongoDB connection
+--- mongo_url = os.environ['MONGO_URL']
+--- client = AsyncIOMotorClient(mongo_url)
+----db = client[os.environ.get('DB_NAME', 'crop_doctor_db')]
+---+db = client[os.environ['DB_NAME']]
 --- 
-----const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
----+const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
----+
----+if (!BACKEND_URL) {
----+  throw new Error('EXPO_PUBLIC_BACKEND_URL is not configured');
----+}
---- 
---- interface AnalysisResult {
----   id: string;
+--- # Create the main app without a prefix
+--- app = FastAPI()
+---diff --git a/model.patch b/model.patch
+---index 1e01f47..e69de29 100644
+------ a/model.patch
+---+++ b/model.patch
+---@@ -1,17 +0,0 @@
+----diff --git a/frontend/app/analysis.tsx b/frontend/app/analysis.tsx
+----index 920b422..7b06b4b 100644
+------- a/frontend/app/analysis.tsx
+----+++ b/frontend/app/analysis.tsx
+----@@ -15,7 +15,11 @@ import { router, useLocalSearchParams } from 'expo-router';
+---- import * as Speech from 'expo-speech';
+---- import axios from 'axios';
+---- 
+-----const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+----+const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+----+
+----+if (!BACKEND_URL) {
+----+  throw new Error('EXPO_PUBLIC_BACKEND_URL is not configured');
+----+}
+---- 
+---- interface AnalysisResult {
+----   id: string;
