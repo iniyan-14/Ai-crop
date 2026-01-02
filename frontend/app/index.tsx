@@ -15,7 +15,23 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 
-const CROP_TYPES = ['Tomato', 'Rice', 'Maize', 'Cotton', 'Wheat', 'Potato'];
+const CROP_TYPES = [
+  'Tomato',
+  'Apple',
+  'Banana',
+  'Mango',
+  'Orange',
+  'Grapes',
+  'Strawberry',
+  'Papaya',
+  'Guava',
+  'Pomegranate',
+  'Rice',
+  'Maize',
+  'Cotton',
+  'Wheat',
+  'Potato',
+];
 
 export default function Index() {
   const [selectedCrop, setSelectedCrop] = useState<string>('');
