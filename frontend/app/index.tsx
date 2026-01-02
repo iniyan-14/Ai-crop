@@ -36,6 +36,27 @@ const CROP_TYPES = [
 export default function Index() {
   const [selectedCrop, setSelectedCrop] = useState<string>('');
 
+  const getCropIcon = (crop: string): keyof typeof Ionicons.glyphMap => {
+    const iconMap: { [key: string]: keyof typeof Ionicons.glyphMap } = {
+      'Tomato': 'nutrition',
+      'Apple': 'nutrition',
+      'Banana': 'nutrition',
+      'Mango': 'nutrition',
+      'Orange': 'nutrition',
+      'Grapes': 'nutrition',
+      'Strawberry': 'nutrition',
+      'Papaya': 'nutrition',
+      'Guava': 'nutrition',
+      'Pomegranate': 'nutrition',
+      'Rice': 'leaf',
+      'Maize': 'leaf',
+      'Cotton': 'leaf',
+      'Wheat': 'leaf',
+      'Potato': 'leaf',
+    };
+    return iconMap[crop] || 'leaf-outline';
+  };
+
   const requestPermissions = async () => {
     if (Platform.OS !== 'web') {
       const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
