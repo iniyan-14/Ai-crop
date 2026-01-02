@@ -67,6 +67,12 @@
           "savePhotosPermission": "Allow AI Crop Doctor to save photos to your device.",
           "isAccessMediaLocationEnabled": true
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "This app needs access to your location to provide weather-based crop advisory."
+        }
       ]
     ],
     "experiments": {
