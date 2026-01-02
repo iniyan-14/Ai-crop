@@ -154,7 +154,7 @@ export default function Index() {
                 activeOpacity={0.7}
               >
                 <Ionicons
-                  name="leaf-outline"
+                  name={getCropIcon(crop)}
                   size={24}
                   color={selectedCrop === crop ? '#10b981' : '#6b7280'}
                 />
