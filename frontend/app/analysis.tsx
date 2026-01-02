@@ -15,7 +15,11 @@ import { router, useLocalSearchParams } from 'expo-router';
 import * as Speech from 'expo-speech';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+
+if (!BACKEND_URL) {
+  throw new Error('EXPO_PUBLIC_BACKEND_URL is not configured');
+}
 
 interface AnalysisResult {
   id: string;
