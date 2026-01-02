@@ -14,7 +14,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+
+if (!BACKEND_URL) {
+  throw new Error('EXPO_PUBLIC_BACKEND_URL is not configured');
+}
 
 interface HistoryItem {
   id: string;
