@@ -232,7 +232,17 @@ async def get_detection_history(user_id: str = "default", limit: int = 50):
     Get detection history for a user
     """
     try:
-        detections = await db.detections.find().sort("detection_date", -1).limit(limit).to_list(limit)
+        # Optimized query with projection to limit fields
+        projection = {
+            '_id': 0,
+            'id': 1,
+            'disease_name': 1,
+            'confidence_score': 1,
+            'crop_type': 1,
+            'detection_date': 1,
+            'image_thumbnail': 1
+        }
+        detections = await db.detections.find({}, projection).sort("detection_date", -1).limit(limit).to_list(limit)
         
         history = [
             DetectionHistory(
