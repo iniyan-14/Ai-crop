@@ -16,7 +16,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 
 const CROP_TYPES = [
-  'Tomato',
+  // Fruits
   'Apple',
   'Banana',
   'Mango',
@@ -26,11 +26,22 @@ const CROP_TYPES = [
   'Papaya',
   'Guava',
   'Pomegranate',
+  'Coconut',
+  // Vegetables
+  'Tomato',
+  'Potato',
+  // Cash Crops
+  'Cotton',
+  'Sugarcane',
+  'Turmeric',
+  // Spices
+  'Pepper',
+  // Plantation Crops
+  'Arecanut',
+  // Cereals
   'Rice',
   'Maize',
-  'Cotton',
   'Wheat',
-  'Potato',
 ];
 
 export default function Index() {
