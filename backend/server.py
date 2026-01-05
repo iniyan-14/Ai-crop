@@ -145,12 +145,17 @@ Common diseases by crop type:
 - Papaya: Papaya Ringspot Virus, Anthracnose, Black Spot, Powdery Mildew
 - Guava: Anthracnose, Wilt Disease, Canker, Fruit Fly damage
 - Pomegranate: Bacterial Blight, Fruit Rot, Cercospora Leaf Spot
+- Coconut: Bud Rot, Leaf Blight, Root Wilt, Stem Bleeding, Thanjavur Wilt
 - Tomato: Early Blight, Late Blight, Septoria Leaf Spot, Bacterial Spot, Fusarium Wilt
+- Potato: Late Blight, Early Blight, Black Leg, Potato Virus Y
+- Cotton: Bacterial Blight, Verticillium Wilt, Fusarium Wilt, Boll Rot
+- Sugarcane: Red Rot, Smut, Wilt, Leaf Scald, Pokkah Boeng
+- Turmeric: Leaf Spot, Leaf Blotch, Rhizome Rot, Scale Insects
+- Pepper: Foot Rot (Phytophthora), Anthracnose, Leaf Spot, Pollu Beetle damage
+- Arecanut: Fruit Rot, Koleroga (Mahali), Yellow Leaf Disease, Inflorescence Die-back
 - Rice: Blast, Bacterial Blight, Sheath Blight, Brown Spot
 - Maize: Northern Corn Leaf Blight, Gray Leaf Spot, Common Rust, Ear Rot
-- Cotton: Bacterial Blight, Verticillium Wilt, Fusarium Wilt, Boll Rot
 - Wheat: Rust diseases, Powdery Mildew, Septoria, Fusarium Head Blight
-- Potato: Late Blight, Early Blight, Black Leg, Potato Virus Y
 
 Provide your response in the following JSON format:
 {{
