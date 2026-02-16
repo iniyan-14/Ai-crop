@@ -1,30 +1,18 @@
 {
   "cli": {
-    "version": ">= 3.0.0"
+    "version": ">= 5.9.0"
   },
   "build": {
     "development": {
-      "workflow": "managed",
       "developmentClient": true,
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk"
-      }
+      "distribution": "internal"
     },
     "preview": {
-      "workflow": "managed",
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk"
-      }
+      "distribution": "internal"
     },
     "production": {
-      "workflow": "managed",
       "android": {
-        "buildType": "app-bundle"
-      },
-      "env": {
-        "EXPO_PUBLIC_BACKEND_URL": "https://your-production-backend.example.com"
+        "buildType": "apk"
       }
     }
   }
