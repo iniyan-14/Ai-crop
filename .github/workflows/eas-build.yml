@@ -1,0 +1,100 @@
+name: EAS Build - Android (production)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  build-android-production:
+    name: Build Android (production)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Install jq (JSON parser)
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Prepare environment
+        # EXPO_TOKEN must be provided as a GitHub Secret. EXPO_PUBLIC_BACKEND_URL is optional.
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          echo "Using EXPO_TOKEN from GitHub Secrets"
+
+      - name: Run EAS build (production, non-interactive)
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          # Optionally provide a backend URL for production builds via GitHub Secrets
+          EXPO_PUBLIC_BACKEND_URL: ${{ secrets.EXPO_PUBLIC_BACKEND_URL }}
+        run: |
+          cd frontend
+          npx eas-cli build -p android --profile production --non-interactive
+
+      - name: Fetch latest finished build info
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          cd frontend
+          # List recent finished android builds and save JSON
+          npx eas-cli build:list --platform android --status finished --limit 1 --json > latest_build.json || true
+
+      - name: Download build artifact (if available)
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          cd frontend
+          node -e "
+          const fs=require('fs');
+          let url='';
+          try{
+            const builds=JSON.parse(fs.readFileSync('latest_build.json','utf8')||'[]');
+            const b=Array.isArray(builds)?builds[0]:builds;
+            if(b && b.artifacts){
+              url=b.artifacts.publicUrl || b.artifacts.buildUrl || b.artifacts.url || '';
+            }
+          }catch(e){}
+          if(!url){ console.log('No artifact URL found'); process.exit(0); }
+          console.log('Downloading artifact from', url);
+          const execSync=require('child_process').execSync;
+          const outFile = url.includes('.aab')? 'app.aab' : 'app.apk';
+          execSync(`curl -L -o ${outFile} ${url}`, {stdio:'inherit'});
+          console.log('Saved artifact to', outFile);
+          "
+
+      - name: Create GitHub Release
+        id: create_release
+        if: success()
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Build ${{ github.run_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload APK/AAB to GitHub Release (curl)
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPLOAD_URL: ${{ steps.create_release.outputs.upload_url }}
+        run: |
+          cd frontend
+          if [ -f app.apk ]; then FILE=app.apk; elif [ -f app.aab ]; then FILE=app.aab; else echo "No APK/AAB found to upload"; exit 0; fi
+          echo "Uploading $FILE to GitHub Release"
+          # Upload using GitHub Releases upload_url API (add ?name=)
+          curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/octet-stream" --data-binary @${FILE} "${UPLOAD_URL}?name=${FILE}" \
+            | jq -r '.url'

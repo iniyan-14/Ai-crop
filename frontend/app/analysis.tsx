@@ -14,12 +14,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as Speech from 'expo-speech';
 import axios from 'axios';
+import Constants from 'expo-constants';
 
-const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
-
-if (!BACKEND_URL) {
-  throw new Error('EXPO_PUBLIC_BACKEND_URL is not configured');
-}
+// Resolve backend URL from Expo runtime config, then environment, then a safe local default.
+const BACKEND_URL =
+  Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
+  process.env.EXPO_PUBLIC_BACKEND_URL ||
+  'http://127.0.0.1:8000';
 
 interface AnalysisResult {
   id: string;
